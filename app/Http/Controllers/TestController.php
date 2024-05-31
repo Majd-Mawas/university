@@ -12,7 +12,11 @@ class TestController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => Test::all()
+        ]);
     }
 
     /**
@@ -28,7 +32,19 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $test = new Test;
+
+        $test->test_administration = $request->test_administration;
+        $test->tested_on = $request->tested_on;
+        $test->record_locater = $request->record_locater;
+        $test->total_score = $request->total_score;
+        $test->user_id = $request->user_id;
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $test
+        ]);
     }
 
     /**
@@ -36,7 +52,11 @@ class TestController extends Controller
      */
     public function show(Test $test)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $test
+        ]);
     }
 
     /**
@@ -52,7 +72,17 @@ class TestController extends Controller
      */
     public function update(Request $request, Test $test)
     {
-        //
+        $test->test_administration = $request->test_administration;
+        $test->tested_on = $request->tested_on;
+        $test->record_locater = $request->record_locater;
+        $test->total_score = $request->total_score;
+        $test->user_id = $request->user_id;
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $test
+        ]);
     }
 
     /**
@@ -60,6 +90,12 @@ class TestController extends Controller
      */
     public function destroy(Test $test)
     {
-        //
+        $test->delete();
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $test
+        ]);
     }
 }

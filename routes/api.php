@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\DocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,6 @@ use App\Http\Controllers\TestController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 
 Route::controller(UserController::class)->group(function () {
@@ -34,5 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('marks', MarkController::class);
     Route::apiResource('subjects', SubjectController::class);
-    Route::apiResource('tests', TestController::class);
+    Route::apiResource('users/test', TestController::class);
+    Route::apiResource('documents', DocumentController::class);
+
+    Route::post('users/create', [UserController::class, 'create_users']);
 });

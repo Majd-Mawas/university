@@ -10,6 +10,9 @@ class Mark extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $hidden = [
+        'test_id',
+    ];
     public function test()
     {
         return $this->belongsTo(Test::class, 'test_id');

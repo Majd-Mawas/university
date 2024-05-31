@@ -12,7 +12,11 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => Subject::all()
+        ]);
     }
 
     /**
@@ -28,7 +32,15 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $subject = new Subject;
+
+        $subject->name = $request->name;
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $subject
+        ]);
     }
 
     /**
@@ -36,7 +48,11 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $subject
+        ]);
     }
 
     /**
@@ -52,7 +68,14 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+
+        $subject->name = $request->name;
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $subject
+        ]);
     }
 
     /**
@@ -60,6 +83,13 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+
+        $subject->delete();
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $subject
+        ]);
     }
 }

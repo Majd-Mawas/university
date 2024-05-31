@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mark;
+use App\Models\User;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 
 class MarkController extends Controller
@@ -12,7 +14,11 @@ class MarkController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => Mark::all()
+        ]);
     }
 
     /**
@@ -28,7 +34,34 @@ class MarkController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mark = new Mark;
+
+        $user = User::findOrFail($request->user_id);
+
+        if (isset($user)) {
+
+
+            $mark->subject_id = $request->subject_id;
+            $mark->test_id = $user->tests->first()->id;
+            $mark->degree = $request->degree;
+
+            $mark->save();
+
+            return response()->json([
+                "success" => true,
+                "status" => 200,
+                "data" => [
+                    "degree" => $mark->degree,
+                    "subject_name" => $mark->subject->name
+                ]
+            ]);
+        } else {
+            return response()->json([
+                "success" => false,
+                "status" => 404,
+                "data" => "user not found"
+            ]);
+        }
     }
 
     /**
@@ -36,7 +69,11 @@ class MarkController extends Controller
      */
     public function show(Mark $mark)
     {
-        //
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $mark
+        ]);
     }
 
     /**
@@ -52,7 +89,25 @@ class MarkController extends Controller
      */
     public function update(Request $request, Mark $mark)
     {
-        //
+        $user = User::findOrFail($request->user_id);
+
+        if (isset($user)) {
+
+            $mark->subject_id = $request->subject_id;
+            $mark->test_id = $user->tests->first()->id;
+            $mark->degree = $request->degree;
+
+            $mark->save();
+
+            return response()->json([
+                "success" => true,
+                "status" => 200,
+                "data" => [
+                    "degree" => $mark->degree,
+                    "subject_name" => $mark->subject->name
+                ]
+            ]);
+        }
     }
 
     /**
@@ -60,6 +115,12 @@ class MarkController extends Controller
      */
     public function destroy(Mark $mark)
     {
-        //
+        $mark->delete();
+
+        return response()->json([
+            "success" => true,
+            "status" => 200,
+            "data" => $mark
+        ]);
     }
 }
